@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class R6guidesApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(R6guidesApplication.class, args);
+		System.out.println("Hello World");
 	}
 
 }
