@@ -1,1 +1,37 @@
-spring.application.name=r6guides
+# Server configuration
+server:
+  port: 8090
+
+# Database configuration
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/r6guides
+    username: r6user
+    password: r6password
+    driver-class-name: org.postgresql.Driver
+
+  # JPA/Hibernate configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# Logging
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+
+# OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
