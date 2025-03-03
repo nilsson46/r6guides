@@ -17,7 +17,7 @@ public class OperatorService {
     }
 
     //Get all operators
-    public List<Operator> findAll() {
+    public List<Operator> getAll() {
         return operatorRepository.findAll();
     }
 

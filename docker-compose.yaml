@@ -1,18 +1,18 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:16
-    container_name: r6guides-postgres
+  mysql:
+    image: mysql:8
+    container_name: r6guides-mysql
     environment:
-      POSTGRES_DB: r6guides
-      POSTGRES_USER: r6user
-      POSTGRES_PASSWORD: r6password
+      MYSQL_DATABASE: r6guides
+      MYSQL_USER: r6user
+      MYSQL_PASSWORD: maxwell
+      MYSQL_ROOT_PASSWORD: rootpassword
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - mysqldata:/var/lib/mysql
 
 volumes:
-  pgdata:
-
+  mysqldata:

@@ -5,11 +5,12 @@ server:
 # Database configuration
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/r6guides
+    url: jdbc:mysql://localhost:3306/r6guides
     username: r6user
-    password: r6password
-    driver-class-name: org.postgresql.Driver
-
+    password: maxwell
+    hikari:
+      data-source-properties:
+        ssl: false
   # JPA/Hibernate configuration
   jpa:
     hibernate:
@@ -18,14 +19,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.MySQLDialect
 
 # Logging
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
 
 # OpenAPI Configuration
 springdoc:
