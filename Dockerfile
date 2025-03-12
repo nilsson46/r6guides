@@ -1,5 +1,5 @@
 # Använd en officiell Java 17-bild som bas (AdoptOpenJDK)
-FROM adoptopenjdk:17-jdk-hotspot
+FROM openjdk:17-jdk
 
 # Ställ in arbetskatalogen i containern
 WORKDIR /app
