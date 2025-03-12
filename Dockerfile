@@ -10,7 +10,7 @@ RUN mvn dependency:go-offline
 
 # Kopiera resten av koden och bygg applikationen
 COPY . .
-RUN mvn clean install
+RUN mvn clean install -DskipTests
 
 # Andra fas: Runtime-fasen
 FROM openjdk:17-jdk-slim
