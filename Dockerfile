@@ -1,23 +1,23 @@
-# Använd OpenJDK 17 som basbild
-FROM openjdk:17-jdk
+# Start from a fresh Ubuntu image
+FROM ubuntu:20.04
 
-# Installera Maven
-RUN apt-get update && apt-get install -y maven
-
-# Ställ in arbetskatalogen
+# Set up working directory
 WORKDIR /app
 
-# Kopiera över pom.xml
+# Install OpenJDK 17 and Maven
+RUN apt-get update && apt-get install -y openjdk-17-jdk maven
+
+# Copy the pom.xml to container
 COPY pom.xml .
 
-# Ladda ner beroenden för Maven
+# Download the dependencies offline
 RUN mvn dependency:go-offline
 
-# Kopiera hela applikationen till containern
+# Copy the rest of the application
 COPY . .
 
-# Bygg applikationen
+# Build the application
 RUN mvn clean install
 
-# Starta applikationen
+# Run the application
 CMD ["java", "-jar", "target/your-app.jar"]
