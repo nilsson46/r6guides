@@ -1,21 +1,23 @@
-# Använd en officiell Java 17-bild som bas (AdoptOpenJDK)
+# Använd OpenJDK 17 som basbild
 FROM openjdk:17-jdk
 
-# Ställ in arbetskatalogen i containern
+# Installera Maven
+RUN apt-get update && apt-get install -y maven
+
+# Ställ in arbetskatalogen
 WORKDIR /app
 
-# Kopiera över Maven pom.xml och ladda ner beroenden (för caching)
+# Kopiera över pom.xml
 COPY pom.xml .
+
+# Ladda ner beroenden för Maven
 RUN mvn dependency:go-offline
 
 # Kopiera hela applikationen till containern
-COPY src /app/src
+COPY . .
 
 # Bygg applikationen
-RUN mvn clean install -DskipTests
+RUN mvn clean install
 
-# Exponera porten som applikationen kommer att köra på (exempel: 8080)
-EXPOSE 8080
-
-# Kör applikationen
+# Starta applikationen
 CMD ["java", "-jar", "target/your-app.jar"]
