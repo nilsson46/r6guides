@@ -1,23 +1,28 @@
-# Start from a fresh Ubuntu image
-FROM ubuntu:20.04
+# Första fas: Byggfasen
+FROM maven:3.8.4-openjdk-17-slim AS build
 
-# Set up working directory
+# Sätt arbetskatalogen
 WORKDIR /app
 
-# Install OpenJDK 17 and Maven
-RUN apt-get update && apt-get install -y openjdk-17-jdk maven
-
-# Copy the pom.xml to container
+# Kopiera pom.xml och ladda ner beroenden offline
 COPY pom.xml .
-
-# Download the dependencies offline
 RUN mvn dependency:go-offline
 
-# Copy the rest of the application
+# Kopiera resten av koden och bygg applikationen
 COPY . .
-
-# Build the application
 RUN mvn clean install
 
-# Run the application
-CMD ["java", "-jar", "target/your-app.jar"]
+# Andra fas: Runtime-fasen
+FROM openjdk:17-jdk-slim
+
+# Sätt arbetskatalogen för runtime
+WORKDIR /app
+
+# Kopiera den byggda JAR-filen från byggfasen
+COPY --from=build /app/target/*.jar /app/app.jar
+
+# Exponera den port som applikationen använder (justera efter behov)
+EXPOSE 8080
+
+# Kör applikationen
+CMD ["java", "-jar", "/app/app.jar"]
