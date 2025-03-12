@@ -50,11 +50,12 @@ jobs:
       - name: Install dependencies
         run: mvn clean install -DskipTests
 
-      ##- name: Run tests
-        ##run: |
-          # Vänta på att MySQL-tjänsten ska vara redo
-          dockerize -wait tcp://localhost:3306 -timeout 2m
-          mvn test
+      # Kommenterat bort teststeget för nu
+      # - name: Run tests
+      #   run: |
+      #     Vänta på att MySQL-tjänsten ska vara redo
+      #     dockerize -wait tcp://localhost:3306 -timeout 2m
+      #     mvn test
 
       - name: Build & push Docker image
         run: |
