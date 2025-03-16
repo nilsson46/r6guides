@@ -1,8 +1,17 @@
 package com.example.r6guides.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "maps", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "name")
+})
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Map {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
