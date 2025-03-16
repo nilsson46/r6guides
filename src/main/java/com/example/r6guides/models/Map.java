@@ -9,12 +9,12 @@ public class Map {
     private String name;
     private String imageUrl;
     private String description;
-    private String objective;
-    private String spawn;
-    private String cameras;
-    private String destructibleWalls;
-    private String destructibleFloors;
-    private String destructibleCeilings;
-    private String mapGuide;
+   // private String objective;
+   // private String spawn;
+   // private String cameras;
+   // private String destructibleWalls;
+   // private String destructibleFloors;
+   // private String destructibleCeilings;
+   // private String mapGuide;
     //Image url?
 }
