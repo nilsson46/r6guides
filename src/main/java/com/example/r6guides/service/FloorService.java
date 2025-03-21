@@ -35,4 +35,7 @@ public class FloorService {
     public Floor updateFloor(Floor floor) {
         return floorRepository.save(floor);
     }
+
+    public List<Floor> getAllFloors() {return floorRepository.findAll();
+    }
 }

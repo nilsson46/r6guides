@@ -20,6 +20,11 @@ public class BombsiteController {
         this.bombsiteService = bombsiteService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<Bombsite>> getAllBombsites() {
+        List<Bombsite> bombsites = bombsiteService.getAllBombsites();
+        return new ResponseEntity<>(bombsites, HttpStatus.OK);
+    }
     @GetMapping("/map/{mapId}")
     public ResponseEntity<List<Bombsite>> getBombsitesByMapId(@PathVariable Long mapId) {
         List<Bombsite> bombsites = bombsiteService.getBombsitesByMapId(mapId);

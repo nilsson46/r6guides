@@ -25,6 +25,8 @@ public class Floor {
 
     private String imageUrl; // Image of the floor layout
 
+    @Version
+    private Integer version;
 
 
 }

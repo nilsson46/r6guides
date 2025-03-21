@@ -10,5 +10,5 @@ import java.util.List;
 public interface BombsiteRepository extends JpaRepository<Bombsite, Long> {
     List<Bombsite> findByMapId(Long mapId);
     List<Bombsite> findByFloorId(Long floorId);
-    List<Bombsite> findByMapIdAndObjectiveType(Long mapId, String objectiveType);
+   // List<Bombsite> findByMapIdAndObjectiveType(Long mapId, String objectiveType);
 }

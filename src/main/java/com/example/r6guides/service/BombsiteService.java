@@ -36,4 +36,6 @@ public class BombsiteService {
     public void deleteBombsite(Long id) {
         bombsiteRepository.deleteById(id);
     }
+
+    public List<Bombsite> getAllBombsites() {return bombsiteRepository.findAll();}
 }

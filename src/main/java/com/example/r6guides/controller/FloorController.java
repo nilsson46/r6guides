@@ -19,7 +19,11 @@ public class FloorController {
     public FloorController(FloorService floorService) {
         this.floorService = floorService;
     }
-
+    @GetMapping
+    public ResponseEntity<List<Floor>> getAllFloors() {
+        List<Floor> floors = floorService.getAllFloors();
+        return new ResponseEntity<>(floors, HttpStatus.OK);
+    }
     @GetMapping("/map/{mapId}")
     public ResponseEntity<List<Floor>> getFloorsByMapId(@PathVariable Long mapId) {
         List<Floor> floors = floorService.getFloorsByMapId(mapId);

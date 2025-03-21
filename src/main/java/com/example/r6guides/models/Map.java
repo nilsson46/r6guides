@@ -24,6 +24,9 @@ public class Map {
     private String imageUrl;
     @Column
     private String description;
+
+    @Version
+    private Integer version;
    // private String objective;
    // private String spawn;
    // private String cameras;

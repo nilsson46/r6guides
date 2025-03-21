@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface FloorRepository extends JpaRepository<Floor, Long> {
     List<Floor> findByMapId(Long mapId);
-    List<Floor> findByMapIdOrderByLevel(Long mapId);
+    List<Floor> findByMapIdOrderByName(Long mapId);
+    //List<Floor> findByMapIdOrderByLevel(Long mapId);
     //List<Floor> findByInRankedPool(boolean inRankedPool);
 }

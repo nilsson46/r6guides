@@ -14,6 +14,8 @@ public class Bombsite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+
     @Column(nullable = false)
     private String name; // Name of the bombsite, A, B,
 
@@ -31,5 +33,8 @@ public class Bombsite {
 
     private String bombALocation; // Location of bomb A
     private String bombBLocation; // Location of bomb B
+
+    @Version
+    private Integer version;
 
 }
