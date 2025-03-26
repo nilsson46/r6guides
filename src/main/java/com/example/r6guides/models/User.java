@@ -23,6 +23,16 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
+
+   // @Transient
+   // private String roleType;
+
+    public String getRoleType() {
+        return role.getRoleType().name();
+    }
 
 
 }
