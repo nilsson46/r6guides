@@ -13,7 +13,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SwaggerSecurityConfig {
 
 
-    @Bean
+  /*  @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorizeRequests ->
@@ -22,5 +22,5 @@ public class SwaggerSecurityConfig {
                 )
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();
-    }
+    } */
 }

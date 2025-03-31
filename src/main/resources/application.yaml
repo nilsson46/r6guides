@@ -1,7 +1,9 @@
 # Server configuration
 server:
   port: 8090
-
+jwt:
+  secret: your_secure_secret_key_generated_by_keys_secretkeyfor
+  expiration: 3600000
 # Database configuration
 spring:
   datasource:
