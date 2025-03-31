@@ -4,18 +4,22 @@ import com.example.r6guides.DTO.LoginRequest;
 import com.example.r6guides.DTO.LoginResponse;
 import com.example.r6guides.models.Role;
 import com.example.r6guides.models.User;
+import com.example.r6guides.repository.RoleRepository;
 import com.example.r6guides.repository.UserRepository;
 import com.example.r6guides.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -34,7 +38,7 @@ public class UserService {
         }
     }
     public void createUser(String email, String password, String username, String roleName) {
-        Role role = roleRepository.findByName(roleName);
+        Role role = roleRepository.findByName(roleName).orElseThrow(() -> new RuntimeException("Role not found"));
         User user = new User();
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
