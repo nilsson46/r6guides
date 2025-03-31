@@ -3,6 +3,7 @@ package com.example.r6guides.service;
 import com.example.r6guides.DTO.LoginRequest;
 import com.example.r6guides.DTO.LoginResponse;
 import com.example.r6guides.models.Role;
+import com.example.r6guides.models.RoleType;
 import com.example.r6guides.models.User;
 import com.example.r6guides.repository.RoleRepository;
 import com.example.r6guides.repository.UserRepository;
@@ -37,8 +38,8 @@ public class UserService {
             throw new RuntimeException("Invalid credentials");
         }
     }
-    public void createUser(String email, String password, String username, String roleName) {
-        Role role = roleRepository.findByName(roleName).orElseThrow(() -> new RuntimeException("Role not found"));
+    public void createUser(String email, String password, String username, RoleType roleType) {
+        Role role = roleRepository.findByRoleType(roleType).orElseThrow(() -> new RuntimeException("Role not found"));
         User user = new User();
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));

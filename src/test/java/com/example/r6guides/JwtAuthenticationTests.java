@@ -2,7 +2,10 @@ package com.example.r6guides;
 
 import com.example.r6guides.DTO.LoginRequest;
 import com.example.r6guides.config.TestSecurityConfig;
+import com.example.r6guides.models.Role;
+import com.example.r6guides.models.RoleType;
 import com.example.r6guides.models.User;
+import com.example.r6guides.repository.RoleRepository;
 import com.example.r6guides.repository.UserRepository;
 import com.example.r6guides.util.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +36,9 @@ public class JwtAuthenticationTests {
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -41,10 +47,21 @@ public class JwtAuthenticationTests {
     @BeforeEach
     public void setUp() {
         userRepository.deleteAll();
+        roleRepository.deleteAll();
+
+        // Ensure the role exists in the database
+        RoleType roleType = RoleType.USER;
+        Role role = roleRepository.findByRoleType(roleType).orElseGet(() -> {
+            Role newRole = new Role();
+            newRole.setRoleType(roleType);
+            return roleRepository.save(newRole);
+        });
+
         User user = new User();
         user.setUsername("testuser");
         user.setPassword(passwordEncoder.encode("password"));
         user.setEmail("testuser@example.com");
+        user.setRole(role); // Ensure role is set
         userRepository.save(user);
     }
 
