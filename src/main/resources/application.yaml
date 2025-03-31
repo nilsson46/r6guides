@@ -1,9 +1,7 @@
 # Server configuration
 server:
   port: 8090
-jwt:
-  secret: your_secure_secret_key_generated_by_keys_secretkeyfor
-  expiration: 3600000
+
 # Database configuration
 spring:
   datasource:
@@ -22,7 +20,13 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
+  # JWT Configuration
+  config:
+    import: "optional:classpath:secrets.properties"
 
+  jwt:
+    secret: ${jwt.secret}
+    expiration: ${jwt.expiration}
 # Logging
 logging:
   level:
