@@ -2,6 +2,7 @@ package com.example.r6guides.service;
 
 import com.example.r6guides.DTO.LoginRequest;
 import com.example.r6guides.DTO.LoginResponse;
+import com.example.r6guides.models.Role;
 import com.example.r6guides.models.User;
 import com.example.r6guides.repository.UserRepository;
 import com.example.r6guides.util.JwtUtil;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -29,5 +32,14 @@ public class UserService {
         } else {
             throw new RuntimeException("Invalid credentials");
         }
+    }
+    public void createUser(String email, String password, String username, String roleName) {
+        Role role = roleRepository.findByName(roleName);
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setUsername(username);
+        user.setRole(role); // Ensure role is set
+        userRepository.save(user);
     }
 }
