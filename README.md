@@ -6,6 +6,8 @@ This is a setup guide tool for Rainbow Six Siege. The main idea is to help peopl
 
 Instructions for getting a copy of the project up and running on your local machine for development and testing.
 
+
+
 ### Prerequisites
 
 What needs to be installed to run the project:
@@ -21,7 +23,7 @@ Step-by-step instructions to install and run the project:
 
 1. Clone the repo:
     ```sh
-    git clone https://github.com/your-username/your-repo.git
+    git clone https://github.com/nilsson46/r6guides.git
     cd your-repo
     ```
 
