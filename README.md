@@ -1,55 +1,52 @@
-Project Name
+# Project Name
+
 A short description of what the project does and why it is useful.
 
-Getting Started
-Instructions for getting a copy of the project up and running on your local machine for development and testing purposes.
+## Getting Started
 
-Prerequisites
+Instructions for getting a copy of the project up and running on your local machine for development and testing.
+
+### Prerequisites
+
 What needs to be installed to run the project:
 
-Java
+- [Java](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html) 
+- [Maven](https://maven.apache.org/install.html)
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-Maven
+### Installation
 
-Docker
-
-Docker Compose
-
-Installation
 Step-by-step instructions to install and run the project:
 
-Clone the repo:
+1. Clone the repo:
+    ```sh
+    git clone https://github.com/your-username/your-repo.git
+    cd your-repo
+    ```
 
-sh
-Kopiera
-Redigera
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
-Build the project with Maven:
+2. Build the project with Maven:
+    ```sh
+    mvn clean install
+    ```
 
-sh
-Kopiera
-Redigera
-mvn clean install
-Start the database with Docker Compose:
+3. Start the database with Docker Compose:
+    ```sh
+    docker-compose up -d
+    ```
 
-sh
-Kopiera
-Redigera
-docker-compose up -d
-Run the application:
+4. Run the application:
+    ```sh
+    mvn spring-boot:run
+    ```
 
-sh
-Kopiera
-Redigera
-mvn spring-boot:run
-Usage
+## Usage
+
 Examples of how to use the project, with code examples and screenshots if possible.
 
-Testing
-Instructions on how to run the project's tests:
+## Testing
 
-sh
-Kopiera
-Redigera
+Instructions for how to run the project’s tests:
+
+```sh
 mvn test
