@@ -1,52 +1,55 @@
-# Projektets Namn
+Project Name
+A short description of what the project does and why it is useful.
 
-En kort beskrivning av vad projektet gör och varför det är användbart.
+Getting Started
+Instructions for getting a copy of the project up and running on your local machine for development and testing purposes.
 
-## Kom igång
+Prerequisites
+What needs to be installed to run the project:
 
-Instruktioner för hur man får en kopia av projektet igång på sin lokala maskin för utveckling och testning.
+Java
 
-### Förutsättningar
+Maven
 
-Vad behöver installeras för att köra projektet:
+Docker
 
-- [Java](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html) 
-- [Maven](https://maven.apache.org/install.html)
-- [Docker](https://docs.docker.com/get-docker/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+Docker Compose
 
-### Installation
+Installation
+Step-by-step instructions to install and run the project:
 
-Steg-för-steg instruktioner för att installera och köra projektet:
+Clone the repo:
 
-1. Klona repot:
-    ```sh
-    git clone https://github.com/ditt-användarnamn/ditt-repo.git
-    cd ditt-repo
-    ```
+sh
+Kopiera
+Redigera
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+Build the project with Maven:
 
-2. Bygg projektet med Maven:
-    ```sh
-    mvn clean install
-    ```
+sh
+Kopiera
+Redigera
+mvn clean install
+Start the database with Docker Compose:
 
-3. Starta databasen med Docker Compose:
-    ```sh
-    docker-compose up -d
-    ```
+sh
+Kopiera
+Redigera
+docker-compose up -d
+Run the application:
 
-4. Kör applikationen:
-    ```sh
-    mvn spring-boot:run
-    ```
+sh
+Kopiera
+Redigera
+mvn spring-boot:run
+Usage
+Examples of how to use the project, with code examples and screenshots if possible.
 
-## Användning
+Testing
+Instructions on how to run the project's tests:
 
-Exempel på hur man använder projektet, med kodexempel och skärmdumpar om möjligt.
-
-## Testning
-
-Instruktioner för hur man kör projektets tester:
-
-```sh
+sh
+Kopiera
+Redigera
 mvn test
