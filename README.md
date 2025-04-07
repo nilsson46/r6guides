@@ -1,6 +1,6 @@
 # Project Name
 
-A short description of what the project does and why it is useful.
+This is a setup guide tool for Rainbow Six Siege. The main idea is to help people setup their sites. 
 
 ## Getting Started
 
