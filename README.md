@@ -8,7 +8,7 @@ Instructions for getting a copy of the project up and running on your local mach
 
 
 
-### Prerequisites
+### Setup
 
 What needs to be installed to run the project:
 
