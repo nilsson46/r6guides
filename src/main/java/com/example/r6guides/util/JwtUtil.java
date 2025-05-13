@@ -23,8 +23,8 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        // Generate a secure key for HS512
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        // Använd den konfigurerade hemligheten för att generera nyckeln
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     public String generateToken(String username) {
