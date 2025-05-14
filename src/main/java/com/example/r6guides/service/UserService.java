@@ -47,7 +47,13 @@ public class UserService {
     }
     public void createUser(String email, String password, String username, RoleType roleType) {
         Role role = roleRepository.findByRoleType(roleType).orElseThrow(() -> new RuntimeException("Role not found"));
+        if(userRepository.findByUsername(username).isPresent()) {
+            throw new RuntimeException("Username already exists");
+        }
         User user = new User();
+        if(userRepository.findByEmail(email).isPresent()) {
+            throw new RuntimeException("Email already exists");
+        }
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setUsername(username);
