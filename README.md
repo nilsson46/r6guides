@@ -52,3 +52,9 @@ Instructions for how to run the project’s tests:
 
 ```sh
 mvn test
+``` 
+## Thoghts with the code. 
+
+Mapguide is the solution to save the users setup guide.
+It should hold all the information from the setup with reinforcmeents, charachters logo (melusi banshees), 
+arrows to show what angles is hold and so on. 
