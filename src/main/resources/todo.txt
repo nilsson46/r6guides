@@ -1,0 +1,152 @@
+Here are some code solutions for the features you can implement offline:
+
+---
+
+### 1. **Account Lockout After Failed Login Attempts**
+Update the `User` model to include fields for tracking failed login attempts and account lock status. Modify the `login` method in `UserService` to handle this logic.
+
+#### Updated `User` Model:
+```java
+package com.example.r6guides.models;
+
+import jakarta.persistence.*;
+
+@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String username;
+    private String email;
+    private String password;
+
+    @ManyToOne
+    private Role role;
+
+    private int failedAttempts = 0;
+    private boolean accountLocked = false;
+
+    // Getters and setters
+}
+```
+
+#### Updated `login` Method in `UserService`:
+```java
+public LoginResponse login(LoginRequest loginRequest) {
+    User user = userRepository.findByUsername(loginRequest.getUsername())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (user.isAccountLocked()) {
+        throw new RuntimeException("Account is locked due to too many failed login attempts");
+    }
+
+    if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+        user.setFailedAttempts(0); // Reset failed attempts on successful login
+        userRepository.save(user);
+        String token = jwtUtil.generateToken(user.getUsername());
+        return new LoginResponse(user.getUsername(), user.getEmail(), token, user.getRoleType());
+    } else {
+        user.setFailedAttempts(user.getFailedAttempts() + 1);
+        if (user.getFailedAttempts() >= 3) {
+            user.setAccountLocked(true);
+        }
+        userRepository.save(user);
+        throw new RuntimeException("Invalid credentials");
+    }
+}
+```
+
+---
+
+### 2. **Custom Exception Handling**
+Create custom exceptions and a global exception handler to return meaningful error responses.
+
+#### Custom Exceptions:
+```java
+package com.example.r6guides.exceptions;
+
+public class UserNotFoundException extends RuntimeException {
+    public UserNotFoundException(String message) {
+        super(message);
+    }
+}
+
+public class InvalidCredentialsException extends RuntimeException {
+    public InvalidCredentialsException(String message) {
+        super(message);
+    }
+}
+```
+
+#### Global Exception Handler:
+```java
+package com.example.r6guides.exceptions;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<String> handleInvalidCredentialsException(InvalidCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+}
+```
+
+---
+
+### 3. **Pagination for User List**
+Add a paginated method in `UserService` and expose it via `UserController`.
+
+#### Updated `UserService`:
+```java
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+public Page<User> getUsers(int page, int size) {
+    return userRepository.findAll(PageRequest.of(page, size));
+}
+```
+
+#### Updated `UserController`:
+```java
+import org.springframework.data.domain.Page;
+
+@GetMapping("/users")
+public ResponseEntity<Page<User>> getUsers(@RequestParam int page, @RequestParam int size) {
+    return ResponseEntity.ok(userService.getUsers(page, size));
+}
+```
+
+---
+
+### 4. **Data Export to CSV**
+Add functionality to export user data to a CSV file.
+
+#### Export Method in `UserService`:
+```java
+import java.io.FileWriter;
+import java.io.IOException;
+
+public void exportUsersToCsv(String filePath) throws IOException {
+    FileWriter writer = new FileWriter(filePath);
+    writer.append("ID,Username,Email,Role\n");
+    for (User user : userRepository.findAll()) {
+        writer.append(user.getId() + "," + user.getUsername() + "," + user.getEmail() + "," + user.getRole().getRoleType() + "\n");
+    }
+    writer.flush();
+    writer.close();
+}
+```
+
+You can call this method locally to generate the CSV file.

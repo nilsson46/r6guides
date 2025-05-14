@@ -20,6 +20,13 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
+  # JWT Configuration
+  config:
+    import: "optional:classpath:secrets.properties"
+
+  jwt:
+    secret: mySuperSecureSecretKey1234567890123456
+    expiration: 3600000
 
 # Logging
 logging:
