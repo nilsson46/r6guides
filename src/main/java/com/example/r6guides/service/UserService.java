@@ -32,9 +32,13 @@ public class UserService {
         User user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
 
         if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            user.setFailedLoginAttempts(0);
+            userRepository.save(user);
             String token = jwtUtil.generateToken(user.getUsername());
             return new LoginResponse(user.getUsername(), user.getEmail(), token, user.getRoleType());
         } else {
+            user.setFailedLoginAttempts(user.getFailedLoginAttempts() + 1);
+            userRepository.save(user);
             throw new RuntimeException("Invalid credentials");
         }
     }

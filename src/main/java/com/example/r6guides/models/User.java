@@ -23,6 +23,12 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    //@Column??
+    private int failedLoginAttempts;
+
+    //Unsure about this.
+    //private boolean accountLocked;
+
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
