@@ -2,6 +2,7 @@ package com.example.r6guides.service;
 
 import com.example.r6guides.DTO.LoginRequest;
 import com.example.r6guides.DTO.LoginResponse;
+import com.example.r6guides.exceptions.UserNotFoundException;
 import com.example.r6guides.models.Role;
 import com.example.r6guides.models.RoleType;
 import com.example.r6guides.models.User;
@@ -29,7 +30,9 @@ public class UserService {
     private JwtUtil jwtUtil;
 
     public LoginResponse login(LoginRequest loginRequest) {
-        User user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        // is it okey to send "user not found" message?
+        User user = userRepository.findByUsername(loginRequest.getUsername())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             user.setFailedLoginAttempts(0);
