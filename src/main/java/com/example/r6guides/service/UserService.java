@@ -2,6 +2,7 @@ package com.example.r6guides.service;
 
 import com.example.r6guides.DTO.LoginRequest;
 import com.example.r6guides.DTO.LoginResponse;
+import com.example.r6guides.exceptions.DuplicateUserException;
 import com.example.r6guides.exceptions.UserNotFoundException;
 import com.example.r6guides.models.Role;
 import com.example.r6guides.models.RoleType;
@@ -42,17 +43,25 @@ public class UserService {
         } else {
             user.setFailedLoginAttempts(user.getFailedLoginAttempts() + 1);
             userRepository.save(user);
+
+            //TODO InvalidCredentialsException
+            //Maybe something like this to lock the account?
+            /*if (user.getFailedLoginAttempts() >= 3) {
+                user.setAccountLocked(true);
+                userRepository.save(user);
+                throw new RuntimeException("Account locked due to too many failed login attempts");
+            }*/
             throw new RuntimeException("Invalid credentials");
         }
     }
     public void createUser(String email, String password, String username, RoleType roleType) {
         Role role = roleRepository.findByRoleType(roleType).orElseThrow(() -> new RuntimeException("Role not found"));
         if(userRepository.findByUsername(username).isPresent()) {
-            throw new RuntimeException("Username already exists");
+            throw new DuplicateUserException("Username already exists");
         }
         User user = new User();
         if(userRepository.findByEmail(email).isPresent()) {
-            throw new RuntimeException("Email already exists");
+            throw new DuplicateUserException("Email already exists");
         }
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
