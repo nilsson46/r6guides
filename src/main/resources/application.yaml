@@ -27,7 +27,11 @@ spring:
   jwt:
     secret: mySuperSecureSecretKey1234567890123456
     expiration: 3600000
-
+# File upload configuration
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 # Logging
 logging:
   level:
@@ -39,6 +43,7 @@ springdoc:
   api-docs:
     path: /api-docs
   swagger-ui:
+    enabled: true
     path: /swagger-ui.html
     operationsSorter: method
     tagsSorter: alpha
