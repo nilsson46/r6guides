@@ -30,10 +30,15 @@ public class MapController {
         return new ResponseEntity<>(maps, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/upload-image")
-    public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+    @PostMapping("/upload-image")
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("description") String description) {
         try {
-            mapService.saveImage(id, file.getBytes());
+            Map map = new Map();
+            map.setName(name);
+            map.setDescription(description);
+            map.setImageData(file.getBytes());
+            map.setImageUrl("");
+            mapService.addMap(map); // Save the new Map entity
             return ResponseEntity.ok("Image uploaded successfully");
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body("Failed to upload image");
