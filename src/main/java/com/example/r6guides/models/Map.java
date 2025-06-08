@@ -25,6 +25,11 @@ public class Map {
     @Column
     private String description;
 
+    @Lob
+    @Column(name = "image_data", columnDefinition = "LONGBLOB")
+    private byte[] imageData;
+
+
     @Version
     private Integer version;
    // private String objective;

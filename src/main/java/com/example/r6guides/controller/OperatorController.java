@@ -49,6 +49,7 @@ public class OperatorController {
     }
 
     // Delete operator by id
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOperator(@PathVariable Long id) {
         operatorService.deleteOperator(id);

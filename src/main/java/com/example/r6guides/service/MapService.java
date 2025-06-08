@@ -44,4 +44,15 @@ public class MapService {
         return mapRepository.save(map);
     }
 
+    public void saveImage(Long id, byte[] imageData) {
+        Map map = mapRepository.findById(id).orElseThrow(() -> new RuntimeException("Map not found"));
+        map.setImageData(imageData);
+        mapRepository.save(map);
+    }
+
+    public byte[] getImage(Long id) {
+        Map map = mapRepository.findById(id).orElseThrow(() -> new RuntimeException("Map not found"));
+        return map.getImageData();
+    }
+
 }
