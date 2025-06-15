@@ -42,9 +42,6 @@ Step-by-step instructions to install and run the project:
     mvn spring-boot:run
     ```
 
-## Usage
-
-Examples of how to use the project, with code examples and screenshots if possible.
 
 ## Testing
 
