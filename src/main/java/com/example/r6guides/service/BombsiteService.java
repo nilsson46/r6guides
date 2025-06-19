@@ -37,5 +37,7 @@ public class BombsiteService {
         bombsiteRepository.deleteById(id);
     }
 
-    public List<Bombsite> getAllBombsites() {return bombsiteRepository.findAll();}
+    public List<Bombsite> getAllBombsites() {
+        return bombsiteRepository.findAll();
+    }
 }

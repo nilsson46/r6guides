@@ -24,9 +24,9 @@ spring:
   config:
     import: "optional:classpath:secrets.properties"
 
-  jwt:
-    secret: mySuperSecureSecretKey1234567890123456
-    expiration: 3600000
+jwt:
+  secret: mySuperSecureSecretKey1234567890123456
+  expiration: 3600000
 # File upload configuration
   servlet:
     multipart:
