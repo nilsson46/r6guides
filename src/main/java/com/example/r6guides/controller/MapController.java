@@ -30,6 +30,9 @@ public class MapController {
         return new ResponseEntity<>(maps, HttpStatus.OK);
     }
 
+
+
+    //This one is used in the frontend right now
     @PostMapping("/upload-image")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("description") String description) {
         try {
@@ -44,7 +47,7 @@ public class MapController {
             return ResponseEntity.internalServerError().body("Failed to upload image");
         }
     }
-
+    //Try this on in the frontend.
     @GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
         byte[] imageData = mapService.getImage(id);
