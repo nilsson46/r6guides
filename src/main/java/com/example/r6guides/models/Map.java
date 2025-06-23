@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.sound.sampled.Line;
+import java.util.List;
+
 @Entity
 @Table(name = "maps", uniqueConstraints = {
         @UniqueConstraint(columnNames = "name")
@@ -17,6 +20,18 @@ public class Map {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+    private String description;
+    private Long userId;
+    @Lob
+    private byte[] imageData;
+    private String imageUrl;
+
+    @OneToMany(mappedBy = "map", cascade = CascadeType.ALL)
+    private List<Line> lines;
+    // getters och setters
+}
+/*
     @Column(nullable = false)
     private String name;
 
@@ -39,5 +54,5 @@ public class Map {
    // private String destructibleFloors;
    // private String destructibleCeilings;
    // private String mapGuide;
-    //Image url?
-}
+    //Image url? */
+
