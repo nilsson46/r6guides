@@ -1,11 +1,8 @@
 package com.example.r6guides.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.sound.sampled.Line;
+import lombok.*;
+import com.example.r6guides.models.Line;
 import java.util.List;
 
 @Entity
@@ -29,6 +26,8 @@ public class Map {
 
     @OneToMany(mappedBy = "map", cascade = CascadeType.ALL)
     private List<Line> lines;
+
+
     // getters och setters
 }
 /*

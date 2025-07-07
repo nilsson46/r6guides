@@ -1,27 +1,36 @@
 package com.example.r6guides.controller;
 
+import com.example.r6guides.DTO.LineDTO;
+import com.example.r6guides.DTO.MapDataDTO;
+import com.example.r6guides.DTO.MapWithImageAndLinesDTO;
+import com.example.r6guides.models.Line;
 import com.example.r6guides.models.Map;
 import com.example.r6guides.repository.MapRepository;
 import com.example.r6guides.service.MapService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.example.r6guides.repository.LineRepository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/maps")
 public class MapController {
-
+    private final LineRepository lineRepository;
     private final MapService mapService;
     private final MapRepository mapRepository;
+
     @Autowired
-    public MapController(MapService mapService, MapRepository mapRepository) {
+    public MapController(MapService mapService, MapRepository mapRepository, LineRepository lineRepository) {
         this.mapService = mapService;
         this.mapRepository = mapRepository;
+        this.lineRepository = lineRepository;
     }
 
     @GetMapping
@@ -33,7 +42,7 @@ public class MapController {
 
 
     //This one is used in the frontend right now
-    @PostMapping("/upload-image")
+   /* @PostMapping("/upload-image")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("description") String description) {
         try {
             Map map = new Map();
@@ -45,6 +54,45 @@ public class MapController {
             return ResponseEntity.ok("Image uploaded successfully");
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body("Failed to upload image");
+        }
+    } */
+
+    @PostMapping("/upload-image")
+    public ResponseEntity<String> uploadImage(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("data") String dataJson
+    ) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            MapDataDTO mapData = objectMapper.readValue(dataJson, MapDataDTO.class);
+
+            Map map = new Map();
+            map.setName(mapData.getName());
+            map.setDescription(mapData.getDescription());
+            map.setUserId(mapData.getUserId());
+            map.setImageData(file.getBytes());
+            map.setImageUrl(""); // Set if you have a URL
+
+            // Save map first to get an id
+            map = mapService.addMap(map);
+
+            // Save lines linked to map
+            if (mapData.getLines() != null) {
+                List<Line> lines = new ArrayList<>();
+                for (LineDTO lineDTO : mapData.getLines()) {
+                    Line line = new Line();
+                    line.setPoints(lineDTO.getPoints());
+                    line.setColor(lineDTO.getColor());
+                    line.setStrokeWidth(lineDTO.getStrokeWidth());
+                    line.setMap(map);
+                    lines.add(line);
+                }
+                lineRepository.saveAll(lines);
+            }
+
+            return ResponseEntity.ok("Image and data uploaded successfully");
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().body("Failed to upload image and data");
         }
     }
     //Try this on in the frontend.
@@ -58,6 +106,33 @@ public class MapController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{id}/All")
+    public ResponseEntity<MapWithImageAndLinesDTO> getMapWithImageAndLines(@PathVariable Long id) {
+        Map map = mapService.getMapById(id);
+        if (map == null) {
+            return ResponseEntity.notFound().build();
+        }
+        MapWithImageAndLinesDTO dto = new MapWithImageAndLinesDTO();
+        dto.setId(map.getId());
+        dto.setName(map.getName());
+        dto.setDescription(map.getDescription());
+        dto.setUserId(map.getUserId());
+        dto.setImageData(map.getImageData());
+        dto.setImageUrl(map.getImageUrl());
+
+        // Convert Line entities to LineDTOs
+        List<LineDTO> lineDTOs = map.getLines().stream().map(line -> {
+            LineDTO l = new LineDTO();
+            l.setPoints(line.getPoints());
+            l.setColor(line.getColor());
+            l.setStrokeWidth(line.getStrokeWidth());
+            return l;
+        }).toList();
+        dto.setLines(lineDTOs);
+
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{name}")

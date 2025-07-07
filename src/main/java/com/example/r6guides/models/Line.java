@@ -1,10 +1,12 @@
 package com.example.r6guides.models;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
+@Data
 public class Line {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
