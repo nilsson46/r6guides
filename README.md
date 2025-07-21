@@ -32,12 +32,15 @@ Step-by-step instructions to install and run the project:
     mvn clean install
     ```
 
-3. Start the database with Docker Compose:
+3. Lombok installation:
+    - If you are using IntelliJ IDEA, install the Lombok plugin from the marketplace.
+    - Enable annotation processing in your IDE settings.
+
+4. Start the database with Docker Compose:
     ```sh
     docker-compose up -d
     ```
-
-4. Run the application:
+5. Run the application:
     ```sh
     mvn spring-boot:run
     ```
