@@ -52,3 +52,82 @@ Instructions for how to run the project’s tests:
 
 ```sh
 mvn test
+
+
+Just nu verkar det som att bilderna sparas med linjerna på sig. Fixa det! Eventuellt: 
+
+1. Spara bakgrundsbilden separat (en gång)
+När du laddar upp en ny karta, spara bara bilden (utan linjer): 
+@PostMapping("/upload-background")
+public ResponseEntity<Long> uploadBackground(@RequestParam("file") MultipartFile file,
+                                             @RequestParam("name") String name,
+                                             @RequestParam("description") String description,
+                                             @RequestParam("userId") Long userId) {
+    try {
+        Map map = new Map();
+        map.setName(name);
+        map.setDescription(description);
+        map.setUserId(userId);
+        map.setImageData(file.getBytes());
+        map = mapService.addMap(map);
+        return ResponseEntity.ok(map.getId());
+    } catch (IOException e) {
+        return ResponseEntity.internalServerError().build();
+    }
+}
+
+2. Spara/uppdatera lines separat
+När du sparar en strategi, skicka bara lines-arrayen och map-id: 
+
+@PostMapping("/{mapId}/lines")
+public ResponseEntity<?> saveLines(@PathVariable Long mapId, @RequestBody List<LineDTO> lines) {
+    Map map = mapService.getMapById(mapId);
+    if (map == null) return ResponseEntity.notFound().build();
+
+    // Radera gamla lines för denna map
+    lineRepository.deleteByMapId(mapId);
+
+    // Spara nya lines
+    List<Line> newLines = lines.stream().map(dto -> {
+        Line l = new Line();
+        l.setPoints(dto.getPoints());
+        l.setColor(dto.getColor());
+        l.setStrokeWidth(dto.getStrokeWidth());
+        l.setMap(map);
+        return l;
+    }).toList();
+    lineRepository.saveAll(newLines);
+
+    return ResponseEntity.ok().build();
+}
+
+3. Ladda strategi (bild + lines)
+@GetMapping("/{id}/All")
+public ResponseEntity<MapWithImageAndLinesDTO> getMapWithImageAndLines(@PathVariable Long id) {
+    Map map = mapService.getMapById(id);
+    if (map == null) return ResponseEntity.notFound().build();
+
+    MapWithImageAndLinesDTO dto = new MapWithImageAndLinesDTO();
+    dto.setId(map.getId());
+    dto.setName(map.getName());
+    dto.setDescription(map.getDescription());
+    dto.setUserId(map.getUserId());
+    dto.setImageData(map.getImageData());
+    dto.setImageUrl(map.getImageUrl());
+
+    List<LineDTO> lineDTOs = map.getLines().stream().map(line -> {
+        LineDTO l = new LineDTO();
+        l.setPoints(line.getPoints());
+        l.setColor(line.getColor());
+        l.setStrokeWidth(line.getStrokeWidth());
+        return l;
+    }).toList();
+    dto.setLines(lineDTOs);
+
+    return ResponseEntity.ok(dto);
+} 
+
+4. I frontend
+Visa bakgrundsbilden (utan linjer) i <Image />.
+Rendera lines-arrayen ovanpå bilden.
+När du sparar, skicka lines separat till /maps/{mapId}/lines.
