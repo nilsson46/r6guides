@@ -97,7 +97,7 @@ public class MapController {
     }
     //Try this on in the frontend.
     @GetMapping("/{id}/image")
-    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) {
         byte[] imageData = mapService.getImage(id);
         if (imageData != null) {
             return ResponseEntity.ok()
@@ -109,7 +109,7 @@ public class MapController {
     }
 
     @GetMapping("/{id}/All")
-    public ResponseEntity<MapWithImageAndLinesDTO> getMapWithImageAndLines(@PathVariable Long id) {
+    public ResponseEntity<MapWithImageAndLinesDTO> getMapWithImageAndLines(@PathVariable("id") Long id) {
         Map map = mapService.getMapById(id);
         if (map == null) {
             return ResponseEntity.notFound().build();
