@@ -18,6 +18,7 @@ import com.example.r6guides.repository.LineRepository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/maps")
@@ -164,4 +165,42 @@ public class MapController {
         mapService.deleteMap(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    //New line saving idea.
+
+    @PostMapping("/{mapId}/lines")
+    public ResponseEntity<?> saveLines(@PathVariable("mapId") Long mapId, @RequestBody List<LineDTO> lines) {
+        Map map = mapService.getMapById(mapId);
+        if (map == null) return ResponseEntity.notFound().build();
+
+        // Optional: Remove old lines for this map
+        // lineRepository.deleteByMapId(mapId);
+
+        List<Line> newLines = lines.stream().map(dto -> {
+            Line l = new Line();
+            l.setPoints(dto.getPoints());
+            l.setColor(dto.getColor());
+            l.setStrokeWidth(dto.getStrokeWidth());
+            l.setMap(map);
+            return l;
+        }).collect(Collectors.toList());
+        lineRepository.saveAll(newLines);
+
+        return ResponseEntity.ok().build();
+    }
+    // Fetch lines for a map
+    @GetMapping("/{mapId}/lines")
+    public ResponseEntity<List<LineDTO>> getLines(@PathVariable Long mapId) {
+        List<Line> lines = lineRepository.findByMapId(mapId);
+        List<LineDTO> dtos = lines.stream().map(line -> {
+            LineDTO dto = new LineDTO();
+            dto.setPoints(line.getPoints());
+            dto.setColor(line.getColor());
+            dto.setStrokeWidth(line.getStrokeWidth());
+            return dto;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+
 }
+}
+
