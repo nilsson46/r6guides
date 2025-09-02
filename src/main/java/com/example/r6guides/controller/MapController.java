@@ -190,7 +190,7 @@ public class MapController {
     }
     // Fetch lines for a map
     @GetMapping("/{mapId}/lines")
-    public ResponseEntity<List<LineDTO>> getLines(@PathVariable Long mapId) {
+    public ResponseEntity<List<LineDTO>> getLines(@PathVariable("mapId") Long mapId) {
         List<Line> lines = lineRepository.findByMapId(mapId);
         List<LineDTO> dtos = lines.stream().map(line -> {
             LineDTO dto = new LineDTO();
