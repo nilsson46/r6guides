@@ -175,6 +175,7 @@ public class MapController {
 
         // Optional: Remove old lines for this map
         // lineRepository.deleteByMapId(mapId);
+        // If you want to keep old lines, skip this step?
 
         List<Line> newLines = lines.stream().map(dto -> {
             Line l = new Line();
