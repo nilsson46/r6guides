@@ -189,7 +189,7 @@ public class MapController {
 
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/{mapId}/lines")
+    @GetMapping("/test/{mapId}/lines")
     public ResponseEntity<String> testGet(@PathVariable("mapId") Long mapId) {
         return ResponseEntity.ok("GET funkar!");
     }
