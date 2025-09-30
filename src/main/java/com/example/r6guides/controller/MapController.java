@@ -189,7 +189,11 @@ public class MapController {
 
         return ResponseEntity.ok().build();
     }
-    // Fetch lines for a map
+    @GetMapping("/{mapId}/lines")
+    public ResponseEntity<String> testGet(@PathVariable("mapId") Long mapId) {
+        return ResponseEntity.ok("GET funkar!");
+    }
+   /* // Fetch lines for a map
     @GetMapping("/{mapId}/lines")
     public ResponseEntity<List<LineDTO>> getLines(@PathVariable("mapId") Long mapId) {
         List<Line> lines = lineRepository.findByMapId(mapId);
@@ -202,6 +206,6 @@ public class MapController {
         }).collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
 
-}
+}*/
 }
 
