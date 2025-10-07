@@ -169,38 +169,46 @@ public class MapController {
     //New line saving idea.
 
     @PostMapping("/{mapId}/lines")
-    public ResponseEntity<?> saveLines(@PathVariable("mapId") Long mapId, @RequestBody List<LineDTO> lines) {
+    public ResponseEntity<String> saveLines(@PathVariable("mapId") Long mapId, @RequestBody List<LineDTO> lineDTOs) {
         Map map = mapService.getMapById(mapId);
-        if (map == null) return ResponseEntity.notFound().build();
+        if (map == null) {
+            return ResponseEntity.notFound().build();
+        }
 
-        // Optional: Remove old lines for this map
-        // lineRepository.deleteByMapId(mapId);
-
-        List<Line> newLines = lines.stream().map(dto -> {
-            Line l = new Line();
-            l.setPoints(dto.getPoints());
-            l.setColor(dto.getColor());
-            l.setStrokeWidth(dto.getStrokeWidth());
-            l.setMap(map);
-            return l;
+        List<Line> lines = lineDTOs.stream().map(dto -> {
+            Line line = new Line();
+            line.setPoints(dto.getPoints());
+            line.setColor(dto.getColor());
+            line.setStrokeWidth(dto.getStrokeWidth());
+            line.setMap(map);
+            return line;
         }).collect(Collectors.toList());
-        lineRepository.saveAll(newLines);
 
-        return ResponseEntity.ok().build();
+        lineRepository.saveAll(lines);
+        return ResponseEntity.ok("Lines saved successfully");
     }
     // Fetch lines for a map
     @GetMapping("/{mapId}/lines")
-    public ResponseEntity<List<LineDTO>> getLines(@PathVariable Long mapId) {
+    public ResponseEntity<List<LineDTO>> getLines(@PathVariable("mapId") Long mapId) {
         List<Line> lines = lineRepository.findByMapId(mapId);
-        List<LineDTO> dtos = lines.stream().map(line -> {
+        List<LineDTO> lineDTOs = lines.stream().map(line -> {
             LineDTO dto = new LineDTO();
             dto.setPoints(line.getPoints());
             dto.setColor(line.getColor());
             dto.setStrokeWidth(line.getStrokeWidth());
             return dto;
         }).collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
 
-}
+        return ResponseEntity.ok(lineDTOs);
+    }
+    @DeleteMapping("/lines/{lineId}")
+    public ResponseEntity<String> deleteLine(@PathVariable("lineId") Long lineId) {
+        if (lineRepository.existsById(lineId)) {
+            lineRepository.deleteById(lineId);
+            return ResponseEntity.ok("Line deleted successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 
