@@ -201,6 +201,7 @@ public class MapController {
 
         return ResponseEntity.ok(lineDTOs);
     }
+    //Works for now! Might add user or map in the future.
     @DeleteMapping("/lines/{lineId}")
     public ResponseEntity<String> deleteLine(@PathVariable("lineId") Long lineId) {
         if (lineRepository.existsById(lineId)) {
