@@ -177,6 +177,9 @@ public class MapController {
 
         List<Line> lines = lineDTOs.stream().map(dto -> {
             Line line = new Line();
+            if (dto.getId() != null) {
+                line = lineRepository.findById(dto.getId()).orElse(new Line());
+            }
             line.setPoints(dto.getPoints());
             line.setColor(dto.getColor());
             line.setStrokeWidth(dto.getStrokeWidth());
@@ -193,6 +196,7 @@ public class MapController {
         List<Line> lines = lineRepository.findByMapId(mapId);
         List<LineDTO> lineDTOs = lines.stream().map(line -> {
             LineDTO dto = new LineDTO();
+            dto.setId(line.getId());
             dto.setPoints(line.getPoints());
             dto.setColor(line.getColor());
             dto.setStrokeWidth(line.getStrokeWidth());
