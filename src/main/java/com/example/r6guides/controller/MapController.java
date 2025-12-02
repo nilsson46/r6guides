@@ -40,24 +40,6 @@ public class MapController {
         return new ResponseEntity<>(maps, HttpStatus.OK);
     }
 
-
-
-    //This one is used in the frontend right now
-   /* @PostMapping("/upload-image")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("description") String description) {
-        try {
-            Map map = new Map();
-            map.setName(name);
-            map.setDescription(description);
-            map.setImageData(file.getBytes());
-            map.setImageUrl("");
-            mapService.addMap(map); // Save the new Map entity
-            return ResponseEntity.ok("Image uploaded successfully");
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().body("Failed to upload image");
-        }
-    } */
-
     @PostMapping("/upload-image")
     public ResponseEntity<String> uploadImage(
             @RequestParam("file") MultipartFile file,
