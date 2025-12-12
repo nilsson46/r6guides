@@ -14,11 +14,11 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/map-images")
 
-public class MapImageController {
+public class UploadMapImageController {
 
     private final MapService mapService;
 
-    public MapImageController(com.example.r6guides.service.MapService mapService) {
+    public UploadMapImageController(com.example.r6guides.service.MapService mapService) {
         this.mapService = mapService;
     }
 

@@ -34,6 +34,12 @@ public class MapController {
         this.lineRepository = lineRepository;
     }
 
+    public UploadMapImageController(LineRepository lineRepository, MapService mapService, MapRepository mapRepository) {
+        this.lineRepository = lineRepository;
+        this.mapService = mapService;
+        this.mapRepository = mapRepository;
+    }
+
     @GetMapping
     public ResponseEntity<List<Map>> getAllMaps() {
         List<Map> maps = mapService.getAllMaps();
