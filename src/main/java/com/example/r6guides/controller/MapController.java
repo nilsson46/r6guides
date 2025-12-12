@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+//TODO: In this controller we need a combo of map and line endpoints for easier management of both entities.
 @RestController
 @RequestMapping("/api/maps")
 public class MapController {
