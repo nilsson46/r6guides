@@ -1,5 +1,6 @@
 package com.example.r6guides.service;
 
+import com.example.r6guides.DTO.MapWithImageAndLinesDTO;
 import com.example.r6guides.models.Map;
 import com.example.r6guides.repository.MapRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,16 @@ public class MapService {
     public byte[] getImage(Long id) {
         Map map = mapRepository.findById(id).orElseThrow(() -> new RuntimeException("Map not found"));
         return map.getImageData();
+    }
+
+    public MapWithImageAndLinesDTO convertToMapWithLinesDTO(Map map) {
+        MapWithImageAndLinesDTO dto = new MapWithImageAndLinesDTO();
+        dto.setId(map.getId());
+        dto.setName(map.getName());
+        dto.setDescription(map.getDescription());
+        dto.setImageUrl(map.getImageUrl());
+        dto.setLines(map.getLines());
+        return dto;
     }
 
 }
