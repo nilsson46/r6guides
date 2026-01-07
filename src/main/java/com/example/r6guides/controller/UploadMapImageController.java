@@ -10,19 +10,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-//Move some code here later add endpoints for map images service and models
 @RestController
-@RequestMapping("/api/map-images")
-
+@RequestMapping("/api/maps/images")
 public class UploadMapImageController {
 
     private final MapService mapService;
 
-    public UploadMapImageController(com.example.r6guides.service.MapService mapService) {
+    public UploadMapImageController(MapService mapService) {
         this.mapService = mapService;
     }
 
-    @PostMapping("/upload-image")
+    @PostMapping("/upload")
     public ResponseEntity<String> uploadImage(
             @RequestParam("file") MultipartFile file,
             @RequestParam("data") String dataJson
@@ -36,22 +34,20 @@ public class UploadMapImageController {
             map.setDescription(mapData.getDescription());
             map.setUserId(mapData.getUserId());
             map.setImageData(file.getBytes());
-            map.setImageUrl(""); // Set if you have a URL
+            mapService.addMap(map);
 
-            map = mapService.addMap(map);
-
-            return ResponseEntity.ok("Image and data uploaded successfully");
+            return ResponseEntity.ok("Image uploaded successfully");
         } catch (IOException e) {
-            return ResponseEntity.internalServerError().body("Failed to upload image and data");
+            return ResponseEntity.internalServerError().body("Failed to upload image");
         }
     }
 
-    @GetMapping("/{id}/image")
+    @GetMapping("/{id}")
     public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) {
         byte[] imageData = mapService.getImage(id);
         if (imageData != null) {
             return ResponseEntity.ok()
-                    .header("Content-Type", "image/jpeg") // Adjust based on your image format
+                    .header("Content-Type", "image/jpeg")
                     .body(imageData);
         } else {
             return ResponseEntity.notFound().build();

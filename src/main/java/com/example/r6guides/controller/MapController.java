@@ -1,6 +1,5 @@
 package com.example.r6guides.controller;
 
-import com.example.r6guides.DTO.LineDTO;
 import com.example.r6guides.DTO.MapWithImageAndLinesDTO;
 import com.example.r6guides.models.Map;
 import com.example.r6guides.service.MapService;
@@ -44,7 +43,7 @@ public class MapController {
         if (existingMap == null) {
             return ResponseEntity.notFound().build();
         }
-        map.setId(id); // Ensure the ID is set for the update
+        map.setId(id);
         Map updatedMap = mapService.updateMap(map);
         return new ResponseEntity<>(updatedMap, HttpStatus.OK);
     }

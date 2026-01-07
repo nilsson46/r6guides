@@ -1,5 +1,6 @@
 package com.example.r6guides.service;
 
+import com.example.r6guides.DTO.LineDTO;
 import com.example.r6guides.DTO.MapWithImageAndLinesDTO;
 import com.example.r6guides.models.Map;
 import com.example.r6guides.repository.MapRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MapService {
@@ -62,7 +64,14 @@ public class MapService {
         dto.setName(map.getName());
         dto.setDescription(map.getDescription());
         dto.setImageUrl(map.getImageUrl());
-        dto.setLines(map.getLines());
+        dto.setLines(map.getLines().stream().map(line -> {
+            LineDTO lineDTO = new LineDTO();
+            lineDTO.setId(line.getId());
+            lineDTO.setPoints(line.getPoints());
+            lineDTO.setColor(line.getColor());
+            lineDTO.setStrokeWidth(line.getStrokeWidth());
+            return lineDTO;
+        }).collect(Collectors.toList()));
         return dto;
     }
 
