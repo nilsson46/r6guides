@@ -21,4 +21,8 @@ public class Line {
     @JoinColumn(name = "map_id")
     private Map map;
     // getters och setters
+
+   /* @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user; */
 }

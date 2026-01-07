@@ -40,24 +40,6 @@ public class MapController {
         return new ResponseEntity<>(maps, HttpStatus.OK);
     }
 
-
-
-    //This one is used in the frontend right now
-   /* @PostMapping("/upload-image")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("description") String description) {
-        try {
-            Map map = new Map();
-            map.setName(name);
-            map.setDescription(description);
-            map.setImageData(file.getBytes());
-            map.setImageUrl("");
-            mapService.addMap(map); // Save the new Map entity
-            return ResponseEntity.ok("Image uploaded successfully");
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().body("Failed to upload image");
-        }
-    } */
-
     @PostMapping("/upload-image")
     public ResponseEntity<String> uploadImage(
             @RequestParam("file") MultipartFile file,
@@ -169,43 +151,22 @@ public class MapController {
     //New line saving idea.
 
     @PostMapping("/{mapId}/lines")
-    public ResponseEntity<?> saveLines(@PathVariable("mapId") Long mapId, @RequestBody List<LineDTO> lines) {
+    public ResponseEntity<String> saveLines(@PathVariable("mapId") Long mapId, @RequestBody List<LineDTO> lineDTOs) {
         Map map = mapService.getMapById(mapId);
-        if (map == null) return ResponseEntity.notFound().build();
-
-        // Optional: Remove old lines for this map
-        // lineRepository.deleteByMapId(mapId);
-        // If you want to keep old lines, skip this step?
-
-        List<Line> newLines = lines.stream().map(dto -> {
-            Line l = new Line();
-            l.setPoints(dto.getPoints());
-            l.setColor(dto.getColor());
-            l.setStrokeWidth(dto.getStrokeWidth());
-            l.setMap(map);
-            return l;
+        if (map == null) {
+            return ResponseEntity.notFound().build();
+        }
+        List<Line> lines = lineDTOs.stream().map(dto -> {
+            Line line = new Line();
+            line.setPoints(dto.getPoints());
+            line.setColor(dto.getColor());
+            line.setStrokeWidth(dto.getStrokeWidth());
+            line.setMap(map);
+            return line;
         }).collect(Collectors.toList());
-        lineRepository.saveAll(newLines);
-
-        return ResponseEntity.ok().build();
+        lineRepository.saveAll(lines);
+        return ResponseEntity.ok("Lines saved successfully");
     }
-    @GetMapping("/test/{mapId}/lines")
-    public ResponseEntity<String> testGet(@PathVariable("mapId") Long mapId) {
-        return ResponseEntity.ok("GET funkar!");
-    }
-   /* // Fetch lines for a map
-    @GetMapping("/{mapId}/lines")
-    public ResponseEntity<List<LineDTO>> getLines(@PathVariable("mapId") Long mapId) {
-        List<Line> lines = lineRepository.findByMapId(mapId);
-        List<LineDTO> dtos = lines.stream().map(line -> {
-            LineDTO dto = new LineDTO();
-            dto.setPoints(line.getPoints());
-            dto.setColor(line.getColor());
-            dto.setStrokeWidth(line.getStrokeWidth());
-            return dto;
-        }).collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
-
-}*/
 }
+
 
