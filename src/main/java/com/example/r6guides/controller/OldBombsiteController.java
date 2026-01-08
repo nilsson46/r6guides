@@ -11,12 +11,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/bombsite")
-public class BombsiteController {
+public class OldBombsiteController {
 
     private final BombsiteService bombsiteService;
 
     @Autowired
-    public BombsiteController(BombsiteService bombsiteService) {
+    public OldBombsiteController(BombsiteService bombsiteService) {
         this.bombsiteService = bombsiteService;
     }
 

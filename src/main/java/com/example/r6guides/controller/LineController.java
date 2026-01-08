@@ -45,7 +45,7 @@ public class LineController {
         lineRepository.saveAll(lines);
         return ResponseEntity.ok("Lines saved successfully");
     }
-
+    //Get lines by map id later with username as well or something?
     @GetMapping("/{mapId}/lines")
     public ResponseEntity<List<LineDTO>> getLines(@PathVariable("mapId") Long mapId) {
         List<Line> lines = lineRepository.findByMapId(mapId);
@@ -60,6 +60,13 @@ public class LineController {
 
         return ResponseEntity.ok(lineDTOs);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Line>> getAllLines() {
+        List<Line> lines = lineRepository.findAll();
+        return ResponseEntity.ok(lines);
+    }
+
 
     @DeleteMapping("/lines/{lineId}")
     public ResponseEntity<String> deleteLine(@PathVariable("lineId") Long lineId) {

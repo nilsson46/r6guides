@@ -1,5 +1,6 @@
 package com.example.r6guides.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,6 +20,7 @@ public class Line {
 
     @ManyToOne
     @JoinColumn(name = "map_id")
+    @JsonBackReference
     private Map map;
     // getters och setters
 

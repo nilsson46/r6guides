@@ -53,4 +53,9 @@ public class UploadMapImageController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/all")
+    public ResponseEntity<Iterable<Map>> getAllMaps() {
+        Iterable<Map> maps = mapService.getAllMaps();
+        return ResponseEntity.ok(maps);
+    }
 }

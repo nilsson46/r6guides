@@ -1,6 +1,5 @@
 package com.example.r6guides.controller;
 
-import com.example.r6guides.models.Bombsite;
 import com.example.r6guides.models.Floor;
 import com.example.r6guides.service.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +11,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/floor")
-public class FloorController {
+public class OldFloorController {
     private final FloorService floorService;
 
     @Autowired
-    public FloorController(FloorService floorService) {
+    public OldFloorController(FloorService floorService) {
         this.floorService = floorService;
     }
     @GetMapping
