@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+//TODO: change to /api/lines later
 @RequestMapping("/api/lines")
 //TODO: implement line controller with endpoints for line service and models and take the code from Mapcontroller
 public class LineController {
